@@ -126,7 +126,7 @@ docker compose up --build
 ```
 
 * You need to have docker compose v2.17 or higher installed. See [this guide](https://github.com/oobabooga/text-generation-webui/blob/main/docs/Docker.md) for instructions.
-* For additional docker files, check out [this repository](https://github.com/Atinoda/text-generation-webui/blob/docker-wrapper/docs/Docker.md#dedicated-docker-repository).
+* For additional docker files, check out [this repository](https://github.com/Atinoda/text-generation-webui-docker).
 
 ### Updating the requirements
 
@@ -156,7 +156,9 @@ For example:
 
     python download-model.py facebook/opt-1.3b
 
-If you want to download a model manually, note that all you need are the json, txt, and pytorch\*.bin (or model*.safetensors) files. The remaining files are not necessary.
+* If you want to download a model manually, note that all you need are the json, txt, and pytorch\*.bin (or model*.safetensors) files. The remaining files are not necessary.
+
+* If you want to download a protected model (one gated behind accepting a license or otherwise private, like `bigcode/starcoder`) you can set the environment variables `HF_USER` to your huggingface username and `HF_PASS` to your password or (_as a better option_) to a [User Access Token](https://huggingface.co/settings/tokens). Note that you will need to accept the model terms on the Hugging Face website before starting the download.
 
 #### GGML models
 
@@ -266,6 +268,13 @@ Optionally, you can use the following command-line flags:
 | `--warmup_autotune`    | (triton) Enable warmup autotune. |
 | `--fused_mlp`          | (triton) Enable fused mlp. |
 
+#### AutoGPTQ
+
+| Flag             | Description |
+|------------------|-------------|
+| `--autogptq`     | Use AutoGPTQ for loading quantized models instead of the internal GPTQ loader. |
+| `--triton`       | Use triton. |
+
 #### FlexGen
 
 | Flag             | Description |
@@ -308,6 +317,8 @@ Optionally, you can use the following command-line flags:
 |---------------------------------------|-------------|
 | `--api`                               | Enable the API extension. |
 | `--public-api`                        | Create a public URL for the API using Cloudfare. |
+| `--api-blocking-port BLOCKING_PORT`   | The listening port for the blocking API. |
+| `--api-streaming-port STREAMING_PORT` | The listening port for the streaming API. |
 
 #### Multimodal
 
