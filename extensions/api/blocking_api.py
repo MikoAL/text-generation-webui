@@ -32,6 +32,15 @@ class Handler(BaseHTTPRequestHandler):
             })
 
             self.wfile.write(response.encode('utf-8'))
+        elif self.path == '/api/v1/stop':
+            stop_everything_event()
+            self.send_response(200)
+            self.end_headers()
+            response = json.dumps({
+                'status': 'stopping'
+            })
+
+            self.wfile.write(response.encode('utf-8'))
         else:
             self.send_error(404)
 

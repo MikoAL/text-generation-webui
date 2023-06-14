@@ -21,7 +21,7 @@ async def run(context):
         'prompt': context,
         'max_new_tokens': 250,
         'do_sample': True,
-        'temperature': 1.3,
+        'temperature': 0.95,
         'top_p': 0.1,
         'typical_p': 1,
         'epsilon_cutoff': 0,  # In units of 1e-4
@@ -56,11 +56,12 @@ async def run(context):
             incoming_data = await websocket.recv()
             incoming_data = json.loads(incoming_data)
 
-            match incoming_data['event']:
-                case 'text_stream':
-                    yield incoming_data['text']
-                case 'stream_end':
-                    return
+            event_type = incoming_data['event']
+            if event_type == 'text_stream':
+                yield incoming_data['text']
+            elif event_type == 'stream_end':
+                return
+
 
 
 async def print_response_stream(prompt):
